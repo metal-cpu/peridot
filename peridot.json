@@ -1,0 +1,17 @@
+{
+  "id": "peridot",
+  "name": "Peridot",
+  "author": [
+    "iceturbo"
+  ],
+  "description": "A Balatro mod that adds 21 new Jokers",
+  "prefix": "peridot",
+  "main_file": "main.lua",
+  "version": "0.0.1~ALPHA",
+  "priority": 0,
+  "badge_colour": "384447",
+  "badge_text_colour": "b4ff25",
+  "dependencies": [
+    "Steamodded (>=1.0.0~BETA-1501a)"
+  ]
+}

@@ -1,0 +1,9 @@
+Peridot Jokers mod for Balatro
+
+Credits
+=========
+
+Developed using the following tools:
+
+* Coding:   ZeroBrane Studio
+* Graphics: GIMP
