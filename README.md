@@ -11,5 +11,5 @@ This mod may not be compatible with other pre-existing mods.
 - 7 Uncommon Jokers
 - 7 Rare Jokers
 
-# Known Bugs
-- Tangent Line may rarely trigger on the same hand played. (...maybe untrue??)
+# Found any bugs?
+- Report them via Issues!
