@@ -11,5 +11,8 @@ This mod may not be compatible with other pre-existing mods.
 - 7 Uncommon Jokers
 - 7 Rare Jokers
 
+# WIP
+- Adding JokerDisplay support
+
 # Found any bugs?
 - Report them asap!
