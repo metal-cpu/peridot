@@ -3,9 +3,9 @@ to_big = to_big or function(num)
     return num
 end
 
---- JokerDisplay compatibility
+--- JokerDisplay compatibility (WIP)
 if JokerDisplay then
-    SMODS.load_file("src/peridot_jokerdisplay_definitions.lua")()
+    -- SMODS.load_file("src/peridot_jokerdisplay_definitions.lua")()
 end
 
 ---- COMMON JOKERS ----
@@ -109,7 +109,6 @@ SMODS.Joker {
     end,
     
     calculate = function(self, card, context)
-        --if context.joker_main or not context.joker_main then
         if (context.joker_main or not context.joker_main) then
             local sell_val = 0
             -- Iterate through all jokers
@@ -152,14 +151,6 @@ SMODS.Joker {
             {
                 'Earn {C:money}$#1#{} every',
                 'played hand',
-                --'if money held is',
-                --'less than {C:money}$#2#{}',
-                -- --'held at start of round',
-                -- --'is {C:attention}higher than $25{}',
-                -- --'Earn {C:money}$#1#{} if money held',
-                -- --'at start of round is',
-                -- --'{C:attention}a multiple of 11{},',
-                -- --'{C:red}self-destructs{} afterward'
             }
         },
         ['unlock'] = {
@@ -181,18 +172,9 @@ SMODS.Joker {
     end,
 
     calculate = function(self, card, context)
-      if context.before --[[and G.GAME.dollars < 25--]] then
+      if context.before then
         return { dollars = card.ability.extra.dollar }
       end
-      
-      --if context.setting_blind and G.GAME.dollars > 25 then
-      --    G.E_MANAGER:add_event(Event({
-      --        func = function()
-      --            card:start_dissolve()
-      --            return true
-      --        end
-      --    }))        
-      --end
     end
 }
 
@@ -213,8 +195,6 @@ SMODS.Joker {
             'Gains {C:blue}+#1#{} Chips if',
             'next played {C:attention}poker hand{}',
             'is not a {C:attention}#2#{}',
-            --'{s:0.8}Must be different than{}',
-            --'{s:0.8}the previous played hand{}',
             '{C:inactive}(Currently {C:blue}+#3#{C:inactive} Chips)'
         },
         ['unlock'] = {
@@ -517,7 +497,6 @@ SMODS.Joker {
       
       if card.ability.extra.initialize == 0 then
         card.ability.extra.initialize = 1
-        -- Gather all of the existing ranks and suits from current deck
         local valid_ranks = {}
         if G.playing_cards then
           for _, playing_card in ipairs(G.playing_cards) do
@@ -525,7 +504,7 @@ SMODS.Joker {
                 table.insert(valid_ranks, playing_card)
               end
           end
-          local th_card = pseudorandom_element(valid_ranks, 'peridot_thunderstorm')
+          local th_card = pseudorandom_element(valid_ranks, 'peridot_lightning')
           if th_card then
               card.ability.extra.rank = th_card.base.value
               card.ability.extra.id = th_card.base.id
@@ -561,7 +540,7 @@ SMODS.Joker {
                 table.insert(valid_ranks, playing_card)
               end
           end
-          local th_card = pseudorandom_element(valid_ranks, 'peridot_thunderstorm')
+          local th_card = pseudorandom_element(valid_ranks, 'peridot_lightning')
           if th_card then
               card.ability.extra.rank = th_card.base.value
               card.ability.extra.id = th_card.base.id
@@ -883,30 +862,6 @@ SMODS.Joker {
       local dollars_sum = 0
       if context.removed and not context.debuffed_hand then
         for k, v in ipairs(context.removed) do
-          -- v is the removed card object
-          -- v.base.suit, v.base.rank to check what was removed
-          --[[
-          dollars_sum = 2
-          if v.config.center.key == "m_steel"
-            or v.config.center.key == "m_glass"
-            or v.config.center.key == "m_gold"
-            or v.config.center.key == "m_lucky"
-            or v.config.center.key == "m_wild"
-            or v.config.center.key == "m_stone"
-            or v.config.center.key == "m_bonus"
-            or v.config.center.key == "m_mult" then  
-              dollars_sum = dollars_sum + 1
-          end
-          --]]
-          --[[
-          if v.edition
-            and (v.edition.key == "e_negative"
-              or v.edition.key == "e_foil"
-              or v.edition.key == "e_holo"
-              or v.edition.key == "e_polychrome") then
-                dollars_sum = dollars_sum + 1
-          end
-          --]]
         end
         return { dollars = #context.removed * card.ability.extra.value }
       end
@@ -991,12 +946,11 @@ SMODS.Joker {
     atlas = 'PeridotJokers',
 
     loc_vars = function(self, info_queue, card)
-        --local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'peridot_afterimage')
         return { vars = { card.ability.extra.h_plays } }
     end,
 
     calculate = function(self, card, context)
-        if context.setting_blind --[[and SMODS.pseudorandom_probability(card, 'peridot_afterimage', 1, card.ability.extra.odds)--]] then
+        if context.setting_blind then
             G.E_MANAGER:add_event(Event({
                 func = (function()
                     G.E_MANAGER:add_event(Event({
@@ -1317,7 +1271,6 @@ SMODS.Joker {
             'First played card',
             'with any {C:attention}seal{} gives',
             ' {X:red,C:white}X#2#{} Mult when scored',
-            --'{s:0.8}Seal changes every round{}',
         },
         ['unlock'] = {
             'Unlocked by default.'
@@ -1385,7 +1338,7 @@ SMODS.Joker {
         }
     },
     pos = { x = 0, y = 2 },
-    cost = 10,
+    cost = 8,
     rarity = 3,
     blueprint_compat = true,
     eternal_compat = true,
@@ -1449,7 +1402,6 @@ SMODS.Joker {
         return { xmult = card.ability.extra.xmult_mod }
       end
       
-      --if context.end_of_round then
       if context.final_scoring_step and G.GAME.hands_played ~= card.ability.extra.hands_played then
         local suitcolor = G.C.SUITS.Spades
         local valid_suits = {}
