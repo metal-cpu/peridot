@@ -12,4 +12,4 @@ This mod may not be compatible with other pre-existing mods.
 - 7 Rare Jokers
 
 # Found any bugs?
-- Report them via Issues!
+- Report them asap!
