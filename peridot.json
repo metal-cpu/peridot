@@ -7,7 +7,7 @@
   "description": "A Balatro mod that adds 21 new Jokers",
   "prefix": "peridot",
   "main_file": "main.lua",
-  "version": "0.0.1~ALPHA",
+  "version": "0.5.1~BETA",
   "priority": 0,
   "badge_colour": "384447",
   "badge_text_colour": "b4ff25",
