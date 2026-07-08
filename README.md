@@ -4,8 +4,6 @@ A content-based Balatro mod that adds 21 new Jokers!
 # Dependencies
 - [Steamodded](https://github.com/Steamodded/smods) (Required)
 
-This mod may not be compatible with other pre-existing mods. 
-
 # Jokers
 - 7 Common Jokers
 - 7 Uncommon Jokers
@@ -13,6 +11,8 @@ This mod may not be compatible with other pre-existing mods.
 
 # WIP
 - Adding JokerDisplay support
+
+**NOTE:** There are no guarantees this mod will work with other mods 
 
 # Found any bugs?
 - Report them asap!
