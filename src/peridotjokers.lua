@@ -89,7 +89,6 @@ SMODS.Joker {
     -- Loc function for dynamic text
     loc_vars = function(self, info_queue, card)
           local sell_val = 0
-            -- Iterate through all jokers
             if G.jokers ~= nil then
                 for i = 1, #G.jokers.cards do
                     -- Check if it's not THIS monument
@@ -98,10 +97,9 @@ SMODS.Joker {
                     end
                 end
                 
-                -- Apply Chips
                 if sell_val > 0 then
-                    local fivex_sell_val = sell_val * 10
-                    card.ability.extra.chips = fivex_sell_val
+                    local tenx_sell_val = sell_val * 10
+                    card.ability.extra.chips = tenx_sell_val
                 end
             end
               
@@ -111,7 +109,6 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if (context.joker_main or not context.joker_main) then
             local sell_val = 0
-            -- Iterate through all jokers
             for i = 1, #G.jokers.cards do
                 -- Check if it's not THIS monument
                 if G.jokers.cards[i] ~= card then
@@ -119,10 +116,9 @@ SMODS.Joker {
                 end
             end
             
-            -- Apply Chips
             if sell_val > 0 then
-                local fivex_sell_val = sell_val * 10
-                card.ability.extra.chips = fivex_sell_val
+                local tenx_sell_val = sell_val * 10
+                card.ability.extra.chips = tenx_sell_val
                 
                 if context.joker_main then
                     return {
@@ -141,8 +137,7 @@ SMODS.Joker {
     key = "j_coinship",
     config = {
         extra = {
-            dollar = 1,
-            dollars = 25
+            dollar = 1
         }
     },
     loc_txt = {
@@ -168,7 +163,7 @@ SMODS.Joker {
     atlas = 'PeridotJokers',
     
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.dollar, card.ability.extra.dollars } }
+        return { vars = { card.ability.extra.dollar } }
     end,
 
     calculate = function(self, card, context)
@@ -469,8 +464,7 @@ SMODS.Joker {
           rank = 'Ace',
           id = 14,
           xmult = 2,
-          found = 0,
-          initialize = 0 }
+          initialize = false }
     },
     loc_txt = {
         ['name'] = 'Lightning',
@@ -495,8 +489,8 @@ SMODS.Joker {
 
     loc_vars = function(self, info_queue, card)
       
-      if card.ability.extra.initialize == 0 then
-        card.ability.extra.initialize = 1
+      if not card.ability.extra.initialize then
+        card.ability.extra.initialize = true
         local valid_ranks = {}
         if G.playing_cards then
           for _, playing_card in ipairs(G.playing_cards) do
@@ -514,7 +508,7 @@ SMODS.Joker {
       end      
       
         return { vars = { card.ability.extra.rank, card.ability.extra.id, card.ability.extra.xmult, 
-            card.ability.extra.found, card.ability.extra.initialize } }
+            card.ability.extra.initialize } }
     end,
 
     calculate = function(self, card, context)
@@ -622,8 +616,6 @@ SMODS.Joker {
                 }
             end
         end
- 
- 
     end
 }
 
@@ -734,7 +726,7 @@ SMODS.Joker {
     config = {
         extra = {
             suit = 'Spades',
-            initialize = 0
+            initialize = false
         }
     },
     loc_txt = {
@@ -761,8 +753,8 @@ SMODS.Joker {
     -- Display current suit in text
     loc_vars = function(self, info_queue, card)
       local suitcolor = G.C.SUITS.Spades
-      if card.ability.extra.initialize == 0 then
-        card.ability.extra.initialize = 1
+      if not card.ability.extra.initialize then
+        card.ability.extra.initialize = true
         
         local valid_suits = {}
         if G.playing_cards then
@@ -771,7 +763,7 @@ SMODS.Joker {
                 table.insert(valid_suits, playing_card.base.suit)
               end
           end
-          local so_suit = pseudorandom_element(valid_suits, 'peridot_standing_ovation')
+          local so_suit = pseudorandom_element(valid_suits, 'peridot_standingovation')
           if so_suit then
               card.ability.extra.suit = so_suit
           else
@@ -792,10 +784,8 @@ SMODS.Joker {
 
     -- Retrigger Logic
     calculate = function(self, card, context)
-        -- Check if scoring cards
         if context.cardarea == G.play and context.repetition then
             local suit = card.ability.extra.suit
-            -- Check if scored card matches the determined suit
             if context.other_card:is_suit(suit) then
                 return {
                     message = 'Again!',
@@ -812,7 +802,7 @@ SMODS.Joker {
                   table.insert(valid_suits, playing_card.base.suit)
                 end
             end
-            local so_suit = pseudorandom_element(valid_suits, 'peridot_standing_ovation')
+            local so_suit = pseudorandom_element(valid_suits, 'peridot_standingovation')
             if so_suit then
                 card.ability.extra.suit = so_suit
             else
@@ -968,7 +958,7 @@ SMODS.Joker {
                     return true
                 end)
             }))
-            return nil, true -- This is for Joker retrigger purposes
+            return nil, true
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -986,7 +976,7 @@ SMODS.Joker {
     key = "j_prism",
     config = {
         extra = {
-            final_hand_played = 0
+            --final_hand_played = 0
         }
     },
     loc_txt = {
@@ -1010,9 +1000,11 @@ SMODS.Joker {
     discovered = true,
     atlas = 'PeridotJokers',
 
+--[[
     loc_vars = function(self, info_queue, card)
       return { vars = { card.ability.extra.final_hand_played  } }
     end,
+--]]
 
     calculate = function(self, card, context)
       if context.end_of_round and context.game_over == false and context.main_eval and context.beat_boss and
@@ -1027,7 +1019,6 @@ SMODS.Joker {
                               func = (function()
                                   SMODS.add_card {
                                       set = 'Spectral',
-                                      
                                   }
                                   G.GAME.consumeable_buffer = 0
                                   return true
@@ -1102,7 +1093,7 @@ SMODS.Joker {
           id = 14,
           suit = 'Spades',
           xmult_mod = 1,
-          initialize = 0
+          initialize = false
         }
     },
     loc_txt = {
@@ -1130,8 +1121,8 @@ SMODS.Joker {
     
     loc_vars = function(self, info_queue, card)
       local suitcolor = 0
-      if card.ability.extra.initialize == 0 then
-        card.ability.extra.initialize = 1
+      if not card.ability.extra.initialize then
+        card.ability.extra.initialize = true
         -- Gather all of the existing ranks and suits from current deck
         local valid_cards = {}
         if G.playing_cards then
@@ -1260,9 +1251,7 @@ SMODS.Joker {
     key = "j_sealion",
     config = {
         extra = {
-            seal_color = 'Gold',
-            xmult = 2,
-            initialize = 0
+            xmult = 2
         }
     },
     loc_txt = {
@@ -1270,7 +1259,7 @@ SMODS.Joker {
         ['text'] = {
             'First played card',
             'with any {C:attention}seal{} gives',
-            ' {X:red,C:white}X#2#{} Mult when scored',
+            ' {X:red,C:white}X#1#{} Mult when scored',
         },
         ['unlock'] = {
             'Unlocked by default.'
@@ -1287,8 +1276,7 @@ SMODS.Joker {
     atlas = 'PeridotJokers',
 
     loc_vars = function(self, info_queue, card)
-          return { vars = { card.ability.extra.seal_color, card.ability.extra.xmult, card.ability.extra.initialize,
-          colours = { text_color } } }
+          return { vars = { card.ability.extra.xmult } }
     end,
 
     calculate = function(self, card, context)
@@ -1320,7 +1308,7 @@ SMODS.Joker {
             xmult_mod = 1,
             suit = 'Spades',
             suit_number = 0,
-            initialize = 0
+            initialize = false
         }
     },
     loc_txt = {
@@ -1376,10 +1364,10 @@ SMODS.Joker {
       end          
       
       -- Initial value calculation for the joker description prior to purchase (i.e. viewing through collection, etc)
-      if card.ability.extra.initialize == 0 then
+      if not card.ability.extra.initialize then
         card.ability.extra.xmult_mod = 13 * card.ability.extra.xmult + 1
         card.ability.extra.suit_number = 13       
-        card.ability.extra.initialize = 1
+        card.ability.extra.initialize = true
       else
         local suit_count = 0
         if G.playing_cards and card.ability.extra.initialize == 1 then
@@ -1436,8 +1424,6 @@ SMODS.Joker {
             end
             card.ability.extra.xmult_mod = suit_count * card.ability.extra.xmult + 1
             card.ability.extra.suit_number = suit_count
-            
         end        
-      
     end
 }
