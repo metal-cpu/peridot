@@ -6,8 +6,29 @@ A content-based Balatro mod that adds 21 new Jokers!
 
 # Jokers
 - 7 Common Jokers
+  - Pi
+  - Monument
+  - Coin Ship
+  - Tangent Line
+  - Virtual Joker
+  - Sawtooth Wave
+  - Ferris Wheel
 - 7 Uncommon Jokers
+  - Lightning
+  - Slot Machine
+  - Redline
+  - Peridot
+  - Standing Ovation
+  - Dart Board
+  - Rising Tide
 - 7 Rare Jokers
+  - Afterimage
+  - Prism
+  - The Call
+  - Flashlight
+  - Golden Eagle
+  - Sea Lion
+  - Chameleon
 
 # WIP
 - Adding JokerDisplay support
