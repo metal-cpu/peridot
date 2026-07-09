@@ -33,7 +33,7 @@ A total of 21 Jokers!
   - Chameleon
 
 # WIP
-- Adding JokerDisplay support
+- Adding JokerDisplay support for the next build.
 
 **NOTE:** There are no guarantees this mod will work with other mods 
 
