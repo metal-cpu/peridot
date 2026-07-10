@@ -284,15 +284,16 @@ SMODS.Joker {
 }
 
 -- Common Joker 6/7
--- Sawtooth Wave
+-- Sawtooth Wave (WIP)
 SMODS.Joker {
     key = "j_sawtoothwave",
     config = {
         extra = {
             mult = 4,
-            card = '2',
-            numcard = 2,
-            hands_played = 0
+            rank = '2',
+            id = 2,
+            hands_played = 0,
+            initialize = false
         }
     },
     loc_txt = {
@@ -300,7 +301,7 @@ SMODS.Joker {
         ['text'] = {
             '{C:mult}+#1#{} Mult per scored {C:attention}#2#{}',
             '{s:0.8}Rank increments every hand{}',
-            '{s:0.8}Resets after Ace{}'
+            '{s:0.8}Resets after highest rank{}'
         },
         ['unlock'] = {
             ''
@@ -317,27 +318,84 @@ SMODS.Joker {
     atlas = 'PeridotJokers',
 
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.mult, card.ability.extra.card, card.ability.extra.numcard, card.ability.extra.hands_played } }
+      local rank_table = { 'none', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace' }
+      local current_cards = {}
+      local rank_found = false
+      
+      if not card.ability.initialize and G.playing_cards then
+        card.ability.initialize = true
+        
+        for _, playing_card in ipairs(G.playing_cards) do
+            if not SMODS.has_no_suit(playing_card) and not SMODS.has_no_rank(playing_card) then
+              table.insert(current_cards, playing_card.base.id)
+            end
+        end
+
+        while not rank_found do
+          for i = 1, #current_cards do
+            if current_cards[i] == card.ability.extra.id then
+              rank_found = true
+              break
+            end
+          end
+          if not rank_found then
+            if card.ability.extra.id >= 14 then
+               card.ability.extra.id = 2
+            else
+               card.ability.extra.id = card.ability.extra.id + 1
+            end
+          end
+        end
+        card.ability.extra.rank = rank_table[card.ability.extra.id]
+      end
+        
+      return { vars = { card.ability.extra.mult, card.ability.extra.rank, card.ability.extra.id, 
+          card.ability.extra.hands_played, card.ability.extra.initialize } }
     end,
 
     calculate = function(self, card, context)
-        local numcard_table = { 'none', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace' }
-        local numcardlocal = card.ability.extra.numcard
+        local idlocal = card.ability.extra.id
         local hands_played = G.GAME.hands_played -- initial value
         if context.individual and context.cardarea == G.play then
-            if context.other_card:get_id() == numcardlocal then
+            if context.other_card:get_id() == idlocal then
                 return { mult = card.ability.extra.mult }
             end
         end
-        if context.final_scoring_step and G.GAME.hands_played ~= card.ability.extra.hands_played then
-            if numcardlocal == 14 then
-               numcardlocal = 2
-             else
-               numcardlocal = numcardlocal + 1
-             end
-             card.ability.extra.card = numcard_table[numcardlocal]
-             card.ability.extra.numcard = numcardlocal
-             card.ability.extra.hands_played = G.GAME.hands_played
+        if context.after and G.GAME.hands_played ~= card.ability.extra.hands_played then
+          local rank_table = { 'none', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace' }
+          local current_cards = {}
+          local rank_found = false
+          
+          if G.playing_cards then
+            for _, playing_card in ipairs(G.playing_cards) do
+                if not SMODS.has_no_suit(playing_card) and not SMODS.has_no_rank(playing_card) then
+                  table.insert(current_cards, playing_card.base.id)
+                end
+            end
+
+            if card.ability.extra.id >= 14 then
+               card.ability.extra.id = 2
+            else
+               card.ability.extra.id = card.ability.extra.id + 1
+            end
+
+            while not rank_found do
+              for i = 1, #current_cards do
+                if current_cards[i] == card.ability.extra.id then
+                  rank_found = true
+                  break
+                end
+              end
+              if not rank_found then
+                if card.ability.extra.id >= 14 then
+                   card.ability.extra.id = 2
+                else
+                   card.ability.extra.id = card.ability.extra.id + 1
+                end
+              end
+            end
+            card.ability.extra.rank = rank_table[card.ability.extra.id]
+          end
         end
     end
 }
@@ -386,27 +444,27 @@ SMODS.Joker {
 
     loc_vars = function(self, info_queue, card)
       local valid_faces = {}
-        if not card.ability.initialize and G.playing_cards then
-          card.ability.initialize = true
-          for _, playing_card in ipairs(G.playing_cards) do
-              if not SMODS.has_no_suit(playing_card) and not SMODS.has_no_rank(playing_card) then
-                if playing_card:is_face() then
-                  table.insert(valid_faces, playing_card)
-                end                
-              end
-          end
-          
-          local fw_card = pseudorandom_element(valid_faces, 'peridot_ferriswheel')
-          if fw_card then
-              card.ability.extra.facecard = fw_card.base.value
-              card.ability.extra.id = fw_card.base.id
-          else
-              card.ability.extra.facecard = 'Jack'
-              card.ability.extra.id = 11              
-          end
-        else
+      if not card.ability.initialize and G.playing_cards then
+        card.ability.initialize = true
+        for _, playing_card in ipairs(G.playing_cards) do
+            if not SMODS.has_no_suit(playing_card) and not SMODS.has_no_rank(playing_card) then
+              if playing_card:is_face() then
+                table.insert(valid_faces, playing_card)
+              end                
+            end
         end
-        return { vars = { card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.facecard, card.ability.extra.id, card.ability.extra.initialize } }
+        
+        local fw_card = pseudorandom_element(valid_faces, 'peridot_ferriswheel')
+        if fw_card then
+            card.ability.extra.facecard = fw_card.base.value
+            card.ability.extra.id = fw_card.base.id
+        else
+            card.ability.extra.facecard = 'Jack'
+            card.ability.extra.id = 11              
+        end
+      else
+      end
+      return { vars = { card.ability.extra.mult_gain, card.ability.extra.mult, card.ability.extra.facecard, card.ability.extra.id, card.ability.extra.initialize } }
     end,
     
     calculate = function(self, card, context)
