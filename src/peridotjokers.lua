@@ -791,7 +791,7 @@ SMODS.Joker {
         ['name'] = 'Standing Ovation',
         ['text'] = {
             'Retrigger all played cards',
-            'of the {V:1}#1#{} suit',
+            'of {V:1}#1#{}',
             '{s:0.8}Suit changes every round{}'
         },
         ['unlock'] = {
