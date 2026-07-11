@@ -790,8 +790,8 @@ SMODS.Joker {
     loc_txt = {
         ['name'] = 'Standing Ovation',
         ['text'] = {
-            'Retrigger all played cards',
-            'of {V:1}#1#{}',
+            'Retrigger all',
+            'played {V:1}#1#{}',
             '{s:0.8}Suit changes every round{}'
         },
         ['unlock'] = {
