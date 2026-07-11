@@ -1,4 +1,4 @@
-<img width="68" height="68" alt="image" src="https://github.com/user-attachments/assets/e48fc111-273c-4276-9a30-6d48d8968963" />
+# <img width="68" height="68" alt="image" src="https://github.com/user-attachments/assets/e48fc111-273c-4276-9a30-6d48d8968963" /> Peridot
 
 # Peridot
 A content-based Balatro mod that adds 21 new Jokers!
