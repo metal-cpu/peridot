@@ -1309,7 +1309,7 @@ SMODS.Joker {
     key = "j_sealion",
     config = {
         extra = {
-            xmult = 2
+            xmult = 2.5
         }
     },
     loc_txt = {
