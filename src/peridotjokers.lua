@@ -976,7 +976,7 @@ SMODS.Joker {
         ['name'] = 'Afterimage',
         ['text'] = {
           'Creates a {C:dark_edition}Negative{} {C:tarot}Fool{} card',
-          'at the start of the round,',
+          'when {C:attention}Blind{} is selected,',
           '{C:blue}#1#{} hand each round'
         },
         ['unlock'] = {
