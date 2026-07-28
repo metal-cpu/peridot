@@ -36,7 +36,8 @@ A total of 21 Jokers!
 # WIP
 - Adding JokerDisplay support for the next build.
 
-**NOTE:** There are no guarantees this mod will work with other mods 
-
 # Found any bugs?
 - Report them asap!
+
+---
+**NOTE:** There are no guarantees this mod will work with other mods 
