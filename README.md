@@ -1,6 +1,5 @@
 
-# <a href="https://github.com/metal-cpu/peridot/wiki"><img src="https://github.com/user-attachments/assets/e4b00131-c97e-43ec-bb42-03df12d8e760" alt="Peridot Jokers" width="68" /></a>
- Peridot Jokers
+# <a href="https://github.com/metal-cpu/peridot/wiki"><img src="https://github.com/user-attachments/assets/e4b00131-c97e-43ec-bb42-03df12d8e760" alt="Peridot Jokers" width="68" /></a> Peridot Jokers
 A content-based Balatro mod that adds 21 new Jokers!
 
 # Dependencies
