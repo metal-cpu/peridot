@@ -13,15 +13,15 @@ A total of 21 Jokers!
 
 Go [here](https://github.com/metal-cpu/peridot/wiki) for more details on them.
 
-| Common         | Uncommon          | Rare          |
-|:---------------|:------------------|:--------------|
-|  Pi            |  Lightning        |  Afterimage   |
-|  Monument      |  Slot Machine     |  Prism        |
-|  Coin Ship     |  Redline          |  The Call     |
-|  Tangent Line  |  Peridot          |  Flashlight   |
-|  Virtual Joker |  Standing Ovation |  Golden Eagle |
-|  Sawtooth Wave |  Dart Board       |  Sea Lion     |
-|  Ferris Wheel  |  Rising Tide      |  Chameleon    |
+| Common         |   | Uncommon          |   | Rare          |
+|:---------------|:-:|:------------------|:-:|:--------------|
+|  Pi            |   |  Lightning        |   |  Afterimage   |
+|  Monument      |   |  Slot Machine     |   |  Prism        |
+|  Coin Ship     |   |  Redline          |   |  The Call     |
+|  Tangent Line  |   |  Peridot          |   | Flashlight    |
+|  Virtual Joker |   |  Standing Ovation |   | Golden Eagle  |
+|  Sawtooth Wave |   |  Dart Board       |   | Sea Lion      |
+|  Ferris Wheel  |   |  Rising Tide      |   | Chameleon     |
 
 # WIP
 - Adding JokerDisplay support for the next build.
