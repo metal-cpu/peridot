@@ -284,7 +284,7 @@ SMODS.Joker {
 }
 
 -- Common Joker 6/7
--- Sawtooth Wave (WIP)
+-- Sawtooth Wave
 SMODS.Joker {
     key = "j_sawtoothwave",
     config = {
@@ -325,13 +325,20 @@ SMODS.Joker {
       if not card.ability.initialize and G.playing_cards then
         card.ability.initialize = true
         
+        -- get all playing cards by id (rank) in an array with unique entries
         for _, playing_card in ipairs(G.playing_cards) do
             if not SMODS.has_no_suit(playing_card) and not SMODS.has_no_rank(playing_card) then
               table.insert(current_cards, playing_card.base.id)
             end
         end
-
+        -- while loop
         while not rank_found do
+          if #current_cards == 0 then
+            card.ability.extra.id = 2
+            card.ability.extra.rank = '2'
+            break
+          end
+          
           for i = 1, #current_cards do
             if current_cards[i] == card.ability.extra.id then
               rank_found = true
@@ -345,7 +352,7 @@ SMODS.Joker {
                card.ability.extra.id = card.ability.extra.id + 1
             end
           end
-        end
+        end -- while loop
         card.ability.extra.rank = rank_table[card.ability.extra.id]
       end
         
@@ -367,19 +374,28 @@ SMODS.Joker {
           local rank_found = false
           
           if G.playing_cards then
+            -- get all playing cards by id (rank) in an array with unique entries
             for _, playing_card in ipairs(G.playing_cards) do
                 if not SMODS.has_no_suit(playing_card) and not SMODS.has_no_rank(playing_card) then
                   table.insert(current_cards, playing_card.base.id)
                 end
             end
 
+            -- Since we're advancing to the next hand, increment the rank by 1 here
             if card.ability.extra.id >= 14 then
                card.ability.extra.id = 2
             else
                card.ability.extra.id = card.ability.extra.id + 1
             end
 
+            -- while loop
             while not rank_found do
+              if #current_cards == 0 then
+                card.ability.extra.id = 2
+                card.ability.extra.rank = '2'
+                break
+              end
+              
               for i = 1, #current_cards do
                 if current_cards[i] == card.ability.extra.id then
                   rank_found = true
@@ -393,11 +409,11 @@ SMODS.Joker {
                    card.ability.extra.id = card.ability.extra.id + 1
                 end
               end
-            end
+            end -- while loop
             card.ability.extra.rank = rank_table[card.ability.extra.id]
-          end
-        end
-    end
+          end -- if G.playing_cards
+        end -- if context.final_scoring
+    end -- calculate
 }
 
 -- Common Joker 7/7
@@ -459,8 +475,8 @@ SMODS.Joker {
             card.ability.extra.facecard = fw_card.base.value
             card.ability.extra.id = fw_card.base.id
         else
-            card.ability.extra.facecard = 'Jack'
-            card.ability.extra.id = 11              
+            card.ability.extra.facecard = 'King'
+            card.ability.extra.id = 13
         end
       else
       end
@@ -502,8 +518,8 @@ SMODS.Joker {
                   card.ability.extra.facecard = fw_card.base.value
                   card.ability.extra.id = fw_card.base.id
               else
-                  card.ability.extra.facecard = 'Jack'
-                  card.ability.extra.id = 11              
+                  card.ability.extra.facecard = 'King'
+                  card.ability.extra.id = 13
               end
               
             else
@@ -560,6 +576,9 @@ SMODS.Joker {
           if th_card then
               card.ability.extra.rank = th_card.base.value
               card.ability.extra.id = th_card.base.id
+          else
+              card.ability.extra.rank = 'Ace'
+              card.ability.extra.id = 14
           end
         else
         end
@@ -596,6 +615,9 @@ SMODS.Joker {
           if th_card then
               card.ability.extra.rank = th_card.base.value
               card.ability.extra.id = th_card.base.id
+          else
+              card.ability.extra.rank = 'Ace'
+              card.ability.extra.id = 14
           end          
         end
     end
@@ -658,7 +680,7 @@ SMODS.Joker {
                         message = localize(loc_message),
                         message_card = card,
                         no_juice = true,
-                        func = function() -- This is for timing purposes, everything here runs after the message
+                        func = function()
                             G.E_MANAGER:add_event(Event({
                                 func = (function()
                                     SMODS.add_card {
@@ -1034,7 +1056,6 @@ SMODS.Joker {
     key = "j_prism",
     config = {
         extra = {
-            --final_hand_played = 0
         }
     },
     loc_txt = {
@@ -1058,12 +1079,6 @@ SMODS.Joker {
     discovered = true,
     atlas = 'PeridotJokers',
 
---[[
-    loc_vars = function(self, info_queue, card)
-      return { vars = { card.ability.extra.final_hand_played  } }
-    end,
---]]
-
     calculate = function(self, card, context)
       if context.end_of_round and context.game_over == false and context.main_eval and context.beat_boss and
           #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -1072,7 +1087,7 @@ SMODS.Joker {
                   extra = {
                       message = localize('k_plus_spectral'),
                       message_card = card,
-                      func = function() -- This is for timing purposes, everything here runs after the message
+                      func = function()
                           G.E_MANAGER:add_event(Event({
                               func = (function()
                                   SMODS.add_card {
@@ -1194,6 +1209,10 @@ SMODS.Joker {
               card.ability.extra.rank = fl_card.base.value
               card.ability.extra.suit = fl_card.base.suit
               card.ability.extra.id = fl_card.base.id
+          else
+              card.ability.extra.rank = 'Ace'
+              card.ability.extra.suit = 'Spades'
+              card.ability.extra.id = 14
           end
         else
         end
@@ -1233,6 +1252,10 @@ SMODS.Joker {
               card.ability.extra.rank = fl_card.base.value
               card.ability.extra.suit = fl_card.base.suit
               card.ability.extra.id = fl_card.base.id
+          else
+              card.ability.extra.rank = 'Ace'
+              card.ability.extra.suit = 'Spades'
+              card.ability.extra.id = 14
           end
           if card.ability.extra.suit == 'Spades'       then suitcolor = G.C.SUITS.Spades
           elseif card.ability.extra.suit == 'Hearts'   then suitcolor = G.C.SUITS.Hearts
@@ -1374,7 +1397,7 @@ SMODS.Joker {
         ['text'] = {
             'Adds {X:mult,C:white}X#1#{} Mult for every',
             '{C:attention}scorable card{} in your full deck',
-            'with the {V:1}#3#{} suit ({V:1}#4#{})',
+            'with the suit of {V:1}#3#{} ({V:1}#4#{})',
             '{s:0.8}Suit changes every hand{}',
             '{C:inactive}(Currently {}{X:mult,C:white}X#2#{}{C:inactive} Mult){}'
             
