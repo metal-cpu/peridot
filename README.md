@@ -24,7 +24,8 @@ Go [here](https://github.com/metal-cpu/peridot/wiki) for more details on them.
 |  Ferris Wheel  |   |  Rising Tide      |   | Chameleon     |
 
 # WIP
-- Adding JokerDisplay support for the next build.
+- Adding JokerDisplay support for the next build
+  - Release date TBA
 
 # Found any bugs?
 - Report them asap!
